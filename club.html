@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Únete al ClubGatuno · La Carta de Nata</title>
+  <meta name="description" content="Únete gratis al ClubGatuno: recibe tu carné del club, la Carta de Nata cada semana y ventajas exclusivas para miembros.">
+  <link rel="icon" href="img/favicon.png">
+  <meta property="og:title" content="Únete gratis al ClubGatuno">
+  <meta property="og:description" content="Recibe tu carné del club y la Carta de Nata cada semana.">
+  <meta property="og:image" content="https://clubgatuno.es/img/logo.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .club { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .ventajas { list-style: none; display: grid; gap: 14px; margin: 24px 0; }
+    .ventajas li { display: flex; gap: 12px; align-items: flex-start; }
+    .ventajas .ico { font-size: 1.5rem; line-height: 1.2; }
+    .formulario {
+      background: #fff; border: 3px solid var(--marron); border-radius: var(--radio);
+      box-shadow: var(--sombra); padding: 28px; display: grid; gap: 16px;
+    }
+    .formulario h2 { font-size: 1.5rem; }
+    .campo { display: grid; gap: 6px; }
+    .campo label { font-weight: 800; font-size: 0.95rem; }
+    .campo .ayuda { font-weight: 400; color: var(--marron-suave); }
+    .campo input, .campo select {
+      font: inherit; padding: 12px 14px; border: 2px solid var(--marron); border-radius: 12px;
+      background: var(--crema-claro); color: var(--marron); width: 100%;
+    }
+    .campo input:focus, .campo select:focus { outline: 3px solid var(--salvia); }
+    .fila { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+    .consentimiento { display: flex; gap: 10px; align-items: flex-start; font-size: 0.88rem; color: var(--marron-suave); }
+    .consentimiento input { width: 22px; height: 22px; margin-top: 2px; flex: none; accent-color: var(--terracota); }
+    .formulario .boton { font: inherit; font-weight: 800; cursor: pointer; width: 100%; }
+    .letra-pequena { font-size: 0.8rem; color: var(--marron-suave); }
+    .error { color: #B3261E; font-weight: 700; font-size: 0.92rem; display: none; }
+    .aviso-demo { background: #FFF1C2; border-radius: 12px; padding: 10px 12px; font-size: 0.85rem; display: none; }
+
+    .resultado { display: none; text-align: center; }
+    .resultado h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    .resultado canvas { width: 100%; max-width: 540px; height: auto; margin: 20px auto; display: block;
+      border-radius: 18px; box-shadow: 0 8px 24px rgba(61,44,42,.18); }
+    .pasos { text-align: left; max-width: 540px; margin: 0 auto 20px; display: grid; gap: 8px; }
+
+    @media (max-width: 760px) {
+      .club { grid-template-columns: 1fr; }
+      .formulario { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera">
+    <div class="contenedor">
+      <a class="marca" href="index.html">
+        <img src="img/logo.png" alt="Logo de ClubGatuno">
+        <span>Club<b>Gatuno</b></span>
+      </a>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html#favoritos">Favoritos de Nata</a></li>
+          <li><a href="index.html#consejos">Consejos</a></li>
+          <li><a href="club.html">Únete al club</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="portada">
+      <div class="contenedor club">
+
+        <div>
+          <h1>Únete gratis al <em>ClubGatuno</em></h1>
+          <p>Forma parte del club de los amantes de los gatos. Te damos la bienvenida con tu carné personalizado y, cada semana, recibirás la Carta de Nata.</p>
+          <ul class="ventajas">
+            <li><span class="ico">🪪</span><span><b>Tu carné del club</b>, con el nombre de tu gato, para guardar o compartir.</span></li>
+            <li><span class="ico">💌</span><span><b>La Carta de Nata</b> cada semana: curiosidades, consejos y los favoritos de Nata.</span></li>
+            <li><span class="ico">🎂</span><span><b>Felicitamos a tu gato</b> el día de su cumpleaños.</span></li>
+            <li><span class="ico">🎁</span><span><b>Ventajas solo para miembros:</b> descuentos, novedades antes que nadie y sorteos.</span></li>
+          </ul>
+          <img src="img/nata-caminando.png" alt="Nata caminando" style="width:220px">
+        </div>
+
+        <div>
+          <form class="formulario" id="form-club" novalidate>
+            <h2>Hazte miembro del club 🐾</h2>
+
+            <div class="campo">
+              <label for="nombre">Tu nombre</label>
+              <input id="nombre" name="nombre" type="text" autocomplete="given-name" maxlength="30" required>
+            </div>
+
+            <div class="campo">
+              <label for="email">Tu correo electrónico</label>
+              <input id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+
+            <div class="campo">
+              <label for="gato">Nombre de tu gato</label>
+              <input id="gato" name="gato" type="text" maxlength="24" placeholder="Por ejemplo: Misi" required>
+            </div>
+
+            <div class="campo">
+              <label>Cumpleaños de tu gato <span class="ayuda">(opcional)</span></label>
+              <div class="fila">
+                <select id="dia" name="dia" aria-label="Día"><option value="">Día</option></select>
+                <select id="mes" name="mes" aria-label="Mes"><option value="">Mes</option></select>
+              </div>
+            </div>
+
+            <label class="consentimiento">
+              <input id="acepto" type="checkbox">
+              <span>Quiero recibir la Carta de Nata por correo, que incluye consejos, novedades, <b>ofertas y promociones</b> de ClubGatuno. He leído la <a href="privacidad.html" target="_blank">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
+            </label>
+
+            <p class="error" id="error"></p>
+            <p class="aviso-demo" id="aviso-demo">Modo de prueba: la newsletter aún no está conectada y no se guarda ningún dato. Solo se genera el carné.</p>
+
+            <button class="boton" type="submit">Quiero mi carné del club</button>
+            <p class="letra-pequena">Responsable: ClubGatuno. Finalidad: enviarte la newsletter. Tus datos se guardan en MailerLite (proveedor de envío de correos). Puedes acceder a tus datos, corregirlos o pedir que los borremos escribiendo a dailycatsstore@gmail.com.</p>
+          </form>
+
+          <div class="resultado" id="resultado">
+            <h2>¡Te damos la bienvenida al club! 🎉</h2>
+            <p>Aquí tienes tu carné. Guárdalo o compártelo con quien quieras.</p>
+            <canvas id="carne" width="1080" height="680"></canvas>
+            <div class="pasos" id="pasos">
+              <p>📩 <b>Último paso:</b> te hemos enviado un correo. Haz clic en el botón de confirmación para empezar a recibir la Carta de Nata. Si no lo ves, mira en la carpeta de spam o en "Promociones".</p>
+            </div>
+            <a class="boton" id="descargar" download="carne-clubgatuno.png">Descargar mi carné</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <p><a href="index.html">Inicio</a> · <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad y cookies</a> · © <span id="anio"></span> ClubGatuno</p>
+    </div>
+  </footer>
+
+  <script>
+    // =================================================================
+    //  CONEXIÓN CON MAILERLITE
+    //  Al crear el formulario incrustado en MailerLite, copia de su
+    //  código la dirección del atributo action="..." y pégala aquí.
+    //  Tiene este aspecto:
+    //  https://assets.mailerlite.com/jsonp/XXXXXX/forms/YYYYYY/subscribe
+    //  Mientras esté vacía, la página funciona en modo de prueba.
+    // =================================================================
+    const MAILERLITE_URL = "";
+
+    // Nombres de los campos personalizados creados en MailerLite
+    const CAMPO_GATO = "gato";
+    const CAMPO_CUMPLE = "cumple_gato"; // formato "DD/MM"
+
+    const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    const selDia = document.getElementById("dia");
+    const selMes = document.getElementById("mes");
+    for (let d = 1; d <= 31; d++) selDia.add(new Option(d, String(d).padStart(2, "0")));
+    MESES.forEach((m, i) => selMes.add(new Option(m[0].toUpperCase() + m.slice(1), String(i + 1).padStart(2, "0"))));
+
+    const form = document.getElementById("form-club");
+    const error = document.getElementById("error");
+    if (!MAILERLITE_URL) document.getElementById("aviso-demo").style.display = "block";
+
+    function mostrarError(texto) { error.textContent = texto; error.style.display = "block"; }
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      error.style.display = "none";
+      const nombre = form.nombre.value.trim();
+      const email = form.email.value.trim();
+      const gato = form.gato.value.trim();
+      if (!nombre) return mostrarError("Escribe tu nombre.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return mostrarError("Revisa tu correo electrónico.");
+      if (!gato) return mostrarError("Escribe el nombre de tu gato.");
+      if (!document.getElementById("acepto").checked) return mostrarError("Para unirte al club tienes que marcar la casilla de aceptación.");
+
+      const boton = form.querySelector("button");
+      boton.disabled = true; boton.textContent = "Enviando…";
+
+      if (MAILERLITE_URL) {
+        const datos = new FormData();
+        datos.append("fields[email]", email);
+        datos.append("fields[name]", nombre);
+        datos.append("fields[" + CAMPO_GATO + "]", gato);
+        if (selDia.value && selMes.value) datos.append("fields[" + CAMPO_CUMPLE + "]", selDia.value + "/" + selMes.value);
+        datos.append("ml-submit", "1");
+        datos.append("anticsrf", "true");
+        try {
+          await fetch(MAILERLITE_URL, { method: "POST", body: datos, mode: "no-cors" });
+        } catch (err) {
+          boton.disabled = false; boton.textContent = "Quiero mi carné del club";
+          return mostrarError("No hemos podido conectar. Inténtalo de nuevo en un momento.");
+        }
+      } else {
+        document.getElementById("pasos").innerHTML =
+          "<p>🧪 <b>Modo de prueba:</b> cuando conectemos MailerLite, aquí se pedirá confirmar el correo.</p>";
+      }
+
+      await dibujarCarne(nombre, gato, selDia.value, selMes.value);
+      form.style.display = "none";
+      document.getElementById("resultado").style.display = "block";
+      document.getElementById("resultado").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    function cargar(src) {
+      return new Promise((ok, mal) => { const i = new Image(); i.onload = () => ok(i); i.onerror = mal; i.src = src; });
+    }
+
+    function rectRedondo(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+    }
+
+    function ajustarTexto(ctx, texto, maxAncho, tamano, peso) {
+      let t = tamano;
+      do { ctx.font = `${peso} ${t}px ui-rounded, "Nunito", "Segoe UI", sans-serif`; t -= 2; }
+      while (ctx.measureText(texto).width > maxAncho && t > 20);
+    }
+
+    async function dibujarCarne(nombre, gato, dia, mes) {
+      const c = document.getElementById("carne");
+      const ctx = c.getContext("2d");
+      const [nata, logo] = await Promise.all([cargar("img/nata-sentada.png"), cargar("img/logo.png")]);
+      const W = c.width, H = c.height;
+
+      // Fondo y borde
+      ctx.clearRect(0, 0, W, H);
+      rectRedondo(ctx, 8, 8, W - 16, H - 16, 44);
+      ctx.fillStyle = "#F4F1DE"; ctx.fill();
+      ctx.lineWidth = 10; ctx.strokeStyle = "#3D2C2A"; ctx.stroke();
+
+      // Banda superior
+      ctx.save(); rectRedondo(ctx, 8, 8, W - 16, H - 16, 44); ctx.clip();
+      ctx.fillStyle = "#E07A5F"; ctx.fillRect(0, 0, W, 130);
+      ctx.fillStyle = "#3D2C2A"; ctx.fillRect(0, 130, W, 8);
+      ctx.restore();
+
+      ctx.save(); ctx.beginPath(); ctx.arc(95, 69, 46, 0, Math.PI * 2); ctx.clip();
+      ctx.drawImage(logo, 49, 23, 92, 92); ctx.restore();
+      ctx.beginPath(); ctx.arc(95, 69, 46, 0, Math.PI * 2); ctx.lineWidth = 5; ctx.strokeStyle = "#3D2C2A"; ctx.stroke();
+
+      ctx.fillStyle = "#FFFFFF";
+      ctx.font = '900 52px ui-rounded, "Nunito", "Segoe UI", sans-serif';
+      ctx.fillText("ClubGatuno", 165, 88);
+      ctx.font = '800 26px ui-rounded, "Nunito", "Segoe UI", sans-serif';
+      ctx.textAlign = "right"; ctx.fillText("CARNÉ DEL CLUB", W - 50, 84); ctx.textAlign = "left";
+
+      // Nata
+      const alto = 400, ancho = nata.width * (alto / nata.height);
+      ctx.drawImage(nata, W - ancho - 60, H - alto - 50, ancho, alto);
+
+      // Datos
+      const x = 70; let y = 220;
+      const etiqueta = t => { ctx.fillStyle = "#81B29A"; ctx.font = '800 24px ui-rounded, "Nunito", "Segoe UI", sans-serif'; ctx.fillText(t, x, y); y += 58; };
+      const valor = (t, tam) => { ctx.fillStyle = "#3D2C2A"; ajustarTexto(ctx, t, 600, tam, 900); ctx.fillText(t, x, y); y += 62; };
+
+      etiqueta("MIEMBRO DEL CLUB"); valor(nombre, 56);
+      etiqueta("GATO"); valor(gato + " 🐾", 56);
+      const hoy = new Date();
+      etiqueta("MIEMBRO DESDE");
+      valor(MESES[hoy.getMonth()][0].toUpperCase() + MESES[hoy.getMonth()].slice(1) + " de " + hoy.getFullYear(), 40);
+
+      if (dia && mes) {
+        ctx.fillStyle = "#6B5A57"; ctx.font = '700 26px ui-rounded, "Nunito", "Segoe UI", sans-serif';
+        ctx.fillText("🎂 Cumpleaños de " + gato + ": " + parseInt(dia, 10) + " de " + MESES[parseInt(mes, 10) - 1], x, H - 60);
+      } else {
+        ctx.fillStyle = "#6B5A57"; ctx.font = '700 26px ui-rounded, "Nunito", "Segoe UI", sans-serif';
+        ctx.fillText("clubgatuno.es", x, H - 60);
+      }
+
+      document.getElementById("descargar").href = c.toDataURL("image/png");
+    }
+
+    document.getElementById("anio").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

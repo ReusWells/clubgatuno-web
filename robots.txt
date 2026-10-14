@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://clubgatuno.es/sitemap.xml
