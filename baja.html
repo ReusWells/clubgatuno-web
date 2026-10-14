@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Darse de baja · ClubGatuno</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .caja { max-width: 560px; margin: 0 auto; padding: 48px 20px 64px; text-align: center; }
+    .caja h1 { font-size: clamp(1.7rem, 5vw, 2.2rem); font-weight: 900; margin: 12px 0; }
+    .caja p { color: var(--marron-suave); margin-bottom: 20px; }
+    .caja .boton { font: inherit; font-weight: 800; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor">
+      <a class="marca" href="index.html"><img src="img/logo.png" alt="Logo de ClubGatuno"><span>Club<b>Gatuno</b></span></a>
+    </div>
+  </header>
+
+  <main class="portada">
+    <div class="caja">
+      <img src="img/nata-durmiendo.png" alt="Nata durmiendo" style="width:200px;margin:0 auto">
+      <h1 id="titulo">¿Quieres darte de baja?</h1>
+      <p id="texto">Dejarás de recibir la Carta de Nata y el resto de correos del ClubGatuno.</p>
+      <button class="boton" id="boton">Sí, darme de baja</button>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script>
+    const t = new URLSearchParams(location.search).get("t") || "";
+    const boton = document.getElementById("boton");
+    boton.addEventListener("click", async () => {
+      boton.disabled = true; boton.textContent = "Un momento…";
+      try {
+        if (!API || !/^[a-f0-9]{32}$/.test(t)) throw new Error();
+        const r = await fetch(API + "/api/baja", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ t }) });
+        if (!(await r.json()).ok) throw new Error();
+        document.getElementById("titulo").textContent = "Listo, ya no recibirás más correos";
+        document.getElementById("texto").textContent = "Nata te echará de menos. Si algún día quieres volver, puedes unirte otra vez desde la web.";
+        boton.outerHTML = '<a class="boton secundario" href="index.html">Volver a la web</a>';
+      } catch (e) {
+        boton.disabled = false; boton.textContent = "Sí, darme de baja";
+        document.getElementById("texto").textContent = "No hemos podido darte de baja con este enlace. Escríbenos a dailycatsstore@gmail.com y lo hacemos nosotros.";
+      }
+    });
+  </script>
+</body>
+</html>

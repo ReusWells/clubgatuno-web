@@ -114,11 +114,12 @@
               <span>Quiero recibir la Carta de Nata por correo, que incluye consejos, novedades, <b>ofertas y promociones</b> de ClubGatuno. He leído la <a href="privacidad.html" target="_blank">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
             </label>
 
+            <input type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
             <p class="error" id="error"></p>
             <p class="aviso-demo" id="aviso-demo">Modo de prueba: la newsletter aún no está conectada y no se guarda ningún dato. Solo se genera el carné.</p>
 
             <button class="boton" type="submit">Quiero mi carné del club</button>
-            <p class="letra-pequena">Responsable: ClubGatuno. Finalidad: enviarte la newsletter. Tus datos se guardan en MailerLite (proveedor de envío de correos). Puedes acceder a tus datos, corregirlos o pedir que los borremos escribiendo a dailycatsstore@gmail.com.</p>
+            <p class="letra-pequena">Responsable: ClubGatuno. Finalidad: enviarte la newsletter. Tus datos se guardan en servidores de Cloudflare en la Unión Europea y los correos se envían con Resend. Puedes acceder a tus datos, corregirlos o pedir que los borremos escribiendo a dailycatsstore@gmail.com.</p>
           </form>
 
           <div class="resultado" id="resultado">
@@ -142,20 +143,11 @@
     </div>
   </footer>
 
+  <script src="config.js"></script>
+  <script src="carne.js"></script>
   <script>
-    // =================================================================
-    //  CONEXIÓN CON MAILERLITE
-    //  Al crear el formulario incrustado en MailerLite, copia de su
-    //  código la dirección del atributo action="..." y pégala aquí.
-    //  Tiene este aspecto:
-    //  https://assets.mailerlite.com/jsonp/XXXXXX/forms/YYYYYY/subscribe
-    //  Mientras esté vacía, la página funciona en modo de prueba.
-    // =================================================================
-    const MAILERLITE_URL = "";
-
-    // Nombres de los campos personalizados creados en MailerLite
-    const CAMPO_GATO = "gato";
-    const CAMPO_CUMPLE = "cumple_gato"; // formato "DD/MM"
+    // Red de la que viene la visita (?o=instagram en el enlace de la biografía)
+    const ORIGEN = (new URLSearchParams(location.search).get("o") || "web").toLowerCase().replace(/[^a-z_]/g, "").slice(0, 20) || "web";
 
     const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
     const selDia = document.getElementById("dia");
@@ -165,7 +157,7 @@
 
     const form = document.getElementById("form-club");
     const error = document.getElementById("error");
-    if (!MAILERLITE_URL) document.getElementById("aviso-demo").style.display = "block";
+    if (!API) document.getElementById("aviso-demo").style.display = "block";
 
     function mostrarError(texto) { error.textContent = texto; error.style.display = "block"; }
 
@@ -183,23 +175,23 @@
       const boton = form.querySelector("button");
       boton.disabled = true; boton.textContent = "Enviando…";
 
-      if (MAILERLITE_URL) {
-        const datos = new FormData();
-        datos.append("fields[email]", email);
-        datos.append("fields[name]", nombre);
-        datos.append("fields[" + CAMPO_GATO + "]", gato);
-        if (selDia.value && selMes.value) datos.append("fields[" + CAMPO_CUMPLE + "]", selDia.value + "/" + selMes.value);
-        datos.append("ml-submit", "1");
-        datos.append("anticsrf", "true");
+      if (API) {
         try {
-          await fetch(MAILERLITE_URL, { method: "POST", body: datos, mode: "no-cors" });
+          const r = await fetch(API + "/api/unirse", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nombre, email, gato, dia: selDia.value, mes: selMes.value, acepto: true,
+              origen: ORIGEN, web: form.web.value })
+          });
+          const res = await r.json();
+          if (!res.ok) throw new Error(res.error || "error");
         } catch (err) {
           boton.disabled = false; boton.textContent = "Quiero mi carné del club";
-          return mostrarError("No hemos podido conectar. Inténtalo de nuevo en un momento.");
+          return mostrarError(err.message && err.message !== "error" && !/fetch/i.test(err.message)
+            ? err.message : "No hemos podido conectar. Inténtalo de nuevo en un momento.");
         }
       } else {
         document.getElementById("pasos").innerHTML =
-          "<p>🧪 <b>Modo de prueba:</b> cuando conectemos MailerLite, aquí se pedirá confirmar el correo.</p>";
+          "<p>🧪 <b>Modo de prueba:</b> el servidor del club aún no está conectado. No se ha guardado nada.</p>";
       }
 
       await dibujarCarne(nombre, gato, selDia.value, selMes.value);
@@ -207,76 +199,6 @@
       document.getElementById("resultado").style.display = "block";
       document.getElementById("resultado").scrollIntoView({ behavior: "smooth", block: "start" });
     });
-
-    function cargar(src) {
-      return new Promise((ok, mal) => { const i = new Image(); i.onload = () => ok(i); i.onerror = mal; i.src = src; });
-    }
-
-    function rectRedondo(ctx, x, y, w, h, r) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
-      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
-    }
-
-    function ajustarTexto(ctx, texto, maxAncho, tamano, peso) {
-      let t = tamano;
-      do { ctx.font = `${peso} ${t}px ui-rounded, "Nunito", "Segoe UI", sans-serif`; t -= 2; }
-      while (ctx.measureText(texto).width > maxAncho && t > 20);
-    }
-
-    async function dibujarCarne(nombre, gato, dia, mes) {
-      const c = document.getElementById("carne");
-      const ctx = c.getContext("2d");
-      const [nata, logo] = await Promise.all([cargar("img/nata-sentada.png"), cargar("img/logo.png")]);
-      const W = c.width, H = c.height;
-
-      // Fondo y borde
-      ctx.clearRect(0, 0, W, H);
-      rectRedondo(ctx, 8, 8, W - 16, H - 16, 44);
-      ctx.fillStyle = "#F4F1DE"; ctx.fill();
-      ctx.lineWidth = 10; ctx.strokeStyle = "#3D2C2A"; ctx.stroke();
-
-      // Banda superior
-      ctx.save(); rectRedondo(ctx, 8, 8, W - 16, H - 16, 44); ctx.clip();
-      ctx.fillStyle = "#E07A5F"; ctx.fillRect(0, 0, W, 130);
-      ctx.fillStyle = "#3D2C2A"; ctx.fillRect(0, 130, W, 8);
-      ctx.restore();
-
-      ctx.save(); ctx.beginPath(); ctx.arc(95, 69, 46, 0, Math.PI * 2); ctx.clip();
-      ctx.drawImage(logo, 49, 23, 92, 92); ctx.restore();
-      ctx.beginPath(); ctx.arc(95, 69, 46, 0, Math.PI * 2); ctx.lineWidth = 5; ctx.strokeStyle = "#3D2C2A"; ctx.stroke();
-
-      ctx.fillStyle = "#FFFFFF";
-      ctx.font = '900 52px ui-rounded, "Nunito", "Segoe UI", sans-serif';
-      ctx.fillText("ClubGatuno", 165, 88);
-      ctx.font = '800 26px ui-rounded, "Nunito", "Segoe UI", sans-serif';
-      ctx.textAlign = "right"; ctx.fillText("CARNÉ DEL CLUB", W - 50, 84); ctx.textAlign = "left";
-
-      // Nata
-      const alto = 400, ancho = nata.width * (alto / nata.height);
-      ctx.drawImage(nata, W - ancho - 60, H - alto - 50, ancho, alto);
-
-      // Datos
-      const x = 70; let y = 220;
-      const etiqueta = t => { ctx.fillStyle = "#81B29A"; ctx.font = '800 24px ui-rounded, "Nunito", "Segoe UI", sans-serif'; ctx.fillText(t, x, y); y += 58; };
-      const valor = (t, tam) => { ctx.fillStyle = "#3D2C2A"; ajustarTexto(ctx, t, 600, tam, 900); ctx.fillText(t, x, y); y += 62; };
-
-      etiqueta("MIEMBRO DEL CLUB"); valor(nombre, 56);
-      etiqueta("GATO"); valor(gato + " 🐾", 56);
-      const hoy = new Date();
-      etiqueta("MIEMBRO DESDE");
-      valor(MESES[hoy.getMonth()][0].toUpperCase() + MESES[hoy.getMonth()].slice(1) + " de " + hoy.getFullYear(), 40);
-
-      if (dia && mes) {
-        ctx.fillStyle = "#6B5A57"; ctx.font = '700 26px ui-rounded, "Nunito", "Segoe UI", sans-serif';
-        ctx.fillText("🎂 Cumpleaños de " + gato + ": " + parseInt(dia, 10) + " de " + MESES[parseInt(mes, 10) - 1], x, H - 60);
-      } else {
-        ctx.fillStyle = "#6B5A57"; ctx.font = '700 26px ui-rounded, "Nunito", "Segoe UI", sans-serif';
-        ctx.fillText("clubgatuno.es", x, H - 60);
-      }
-
-      document.getElementById("descargar").href = c.toDataURL("image/png");
-    }
 
     document.getElementById("anio").textContent = new Date().getFullYear();
   </script>

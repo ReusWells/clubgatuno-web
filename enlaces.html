@@ -51,5 +51,10 @@
     <img class="nata" src="img/nata-durmiendo.png" alt="Nata durmiendo">
     <p class="legal-mini">Como afiliado de Amazon, ClubGatuno obtiene ingresos por las compras adscritas que cumplen los requisitos aplicables.<br><a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a></p>
   </main>
+  <script>
+    // Pasa la red de origen (?o=instagram) a los enlaces del club para saber de dónde vienen los miembros.
+    const o = new URLSearchParams(location.search).get("o");
+    if (o) document.querySelectorAll('a[href^="club.html"]').forEach(a => a.href = "club.html?o=" + encodeURIComponent(o));
+  </script>
 </body>
 </html>

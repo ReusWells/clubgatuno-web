@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmar · ClubGatuno</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .caja { max-width: 620px; margin: 0 auto; padding: 48px 20px 64px; text-align: center; }
+    .caja h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900; margin: 12px 0; }
+    .caja p { color: var(--marron-suave); }
+    .caja canvas { width: 100%; max-width: 540px; height: auto; margin: 24px auto; display: none;
+      border-radius: 18px; box-shadow: 0 8px 24px rgba(61,44,42,.18); }
+    .caja .acciones { display: none; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor">
+      <a class="marca" href="index.html"><img src="img/logo.png" alt="Logo de ClubGatuno"><span>Club<b>Gatuno</b></span></a>
+    </div>
+  </header>
+
+  <main class="portada">
+    <div class="caja">
+      <img id="nata" src="img/nata-sentada.png" alt="Nata" style="width:160px;margin:0 auto">
+      <h1 id="titulo">Confirmando…</h1>
+      <p id="texto">Un momento, Nata está revisando tu carné.</p>
+      <canvas id="carne" width="1080" height="680"></canvas>
+      <div class="acciones" id="acciones">
+        <a class="boton" id="descargar" download="carne-clubgatuno.png">Descargar mi carné</a>
+        <a class="boton secundario" href="index.html#favoritos">Ver los favoritos de Nata</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="carne.js"></script>
+  <script>
+    const t = new URLSearchParams(location.search).get("t") || "";
+    const titulo = document.getElementById("titulo"), texto = document.getElementById("texto");
+    function fallo(msg) { titulo.textContent = "Vaya…"; texto.textContent = msg; document.getElementById("nata").src = "img/nata-durmiendo.png"; }
+
+    (async () => {
+      if (!API) return fallo("El club todavía no está conectado.");
+      if (!/^[a-f0-9]{32}$/.test(t)) return fallo("Este enlace no es válido. Copia el enlace completo del correo o vuelve a apuntarte.");
+      try {
+        const r = await fetch(API + "/api/confirmar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ t }) });
+        const d = await r.json();
+        if (!d.ok) return fallo(d.error || "No hemos podido confirmar tu correo.");
+        titulo.textContent = "¡Te damos la bienvenida al club! 🎉";
+        texto.textContent = "Tu correo está confirmado. Te acabamos de enviar el primer correo de Nata, y cada semana recibirás la Carta de Nata.";
+        history.replaceState(null, "", "confirmar.html");   // quita el código de la barra de direcciones
+        const [mes, dia] = (d.cumple || "").split("-");
+        await dibujarCarne(d.nombre, d.gato, dia || "", mes || "");
+        document.getElementById("carne").style.display = "block";
+        document.getElementById("acciones").style.display = "flex";
+      } catch (e) {
+        fallo("No hemos podido conectar. Inténtalo de nuevo en un momento.");
+      }
+    })();
+  </script>
+</body>
+</html>
