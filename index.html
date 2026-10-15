@@ -125,11 +125,16 @@
 
     function enlaceAmazon(p) {
       if (p.enlace) return p.enlace;
-      return "https://www.amazon.es/s?k=" + encodeURIComponent(p.busqueda) + "&tag=" + AMAZON_TAG;
+      // Filtro de Amazon "4 estrellas o más"
+      return "https://www.amazon.es/s?k=" + encodeURIComponent(p.busqueda) + "&rh=p_72%3A831280031&tag=" + AMAZON_TAG;
     }
 
+    // Solo productos de 4 estrellas o más: las búsquedas ya llevan el filtro;
+    // un producto concreto (con "enlace") necesita "estrellas" >= 4.
+    const VISIBLES = PRODUCTOS.filter(p => !p.enlace || (p.estrellas || 0) >= ESTRELLAS_MINIMAS);
+
     function pintar(categoria) {
-      const lista = categoria === "todos" ? PRODUCTOS : PRODUCTOS.filter(p => p.categoria === categoria);
+      const lista = categoria === "todos" ? VISIBLES : VISIBLES.filter(p => p.categoria === categoria);
       contenedor.innerHTML = lista.map(p => `
         <article class="tarjeta">
           <div class="tarjeta-icono" aria-hidden="true">${p.icono}</div>

@@ -6,10 +6,14 @@
 //  2. Cada producto busca en Amazon.es con "busqueda". Cuando elijas un
 //     producto concreto, pega su enlace de afiliado en "enlace" y se
 //     usará en lugar de la búsqueda.
-//  3. Para añadir un producto, copia un bloque { ... } y cambia los datos.
+//  3. Solo se muestran productos de 4 estrellas o más. Las búsquedas ya
+//     filtran por 4 estrellas; si pegas un "enlace" concreto, pon también
+//     su nota en "estrellas" (ej. 4.5) o no aparecerá en la web.
+//  4. Para añadir un producto, copia un bloque { ... } y cambia los datos.
 // =====================================================================
 
-const AMAZON_TAG = "TU-ID-21";
+const AMAZON_TAG = "clubgatuno-21";
+const ESTRELLAS_MINIMAS = 4;
 
 const CATEGORIAS = {
   comer:   "Comer y beber",
@@ -28,6 +32,7 @@ const PRODUCTOS = [
     nata: "Mi favorita. El agua fresquita sabe mejor.",
     busqueda: "fuente agua gatos silenciosa",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Comedero elevado inclinado",
@@ -37,6 +42,7 @@ const PRODUCTOS = [
     nata: "Como como una reina.",
     busqueda: "comedero elevado inclinado gato",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Cama tipo cueva",
@@ -46,6 +52,7 @@ const PRODUCTOS = [
     nata: "Mi escondite secreto. No se lo digas a nadie.",
     busqueda: "cama cueva gato",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Hamaca para ventana",
@@ -55,6 +62,7 @@ const PRODUCTOS = [
     nata: "Desde aquí vigilo a las palomas.",
     busqueda: "hamaca ventana gato ventosas",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Caña con plumas",
@@ -64,6 +72,7 @@ const PRODUCTOS = [
     nata: "¡Nunca la atrapo, pero nunca me rindo!",
     busqueda: "caña plumas gato juguete",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Túnel plegable",
@@ -73,6 +82,7 @@ const PRODUCTOS = [
     nata: "Entro por un lado y salgo… cuando me apetece.",
     busqueda: "tunel plegable gatos",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Rascador de cartón",
@@ -82,6 +92,7 @@ const PRODUCTOS = [
     nata: "Mejor que el sofá. Bueno… casi.",
     busqueda: "rascador carton gato",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Árbol rascador",
@@ -91,6 +102,7 @@ const PRODUCTOS = [
     nata: "Mi trono. Desde aquí lo controlo todo.",
     busqueda: "arbol rascador gato",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Cepillo quitapelo",
@@ -100,6 +112,7 @@ const PRODUCTOS = [
     nata: "Cepíllame, que hoy estoy guapa.",
     busqueda: "cepillo quitapelo gato",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Arenero cerrado",
@@ -109,6 +122,7 @@ const PRODUCTOS = [
     nata: "Un poco de privacidad, por favor.",
     busqueda: "arenero cerrado gato",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Cortaúñas para gatos",
@@ -118,6 +132,7 @@ const PRODUCTOS = [
     nata: "No me gusta… pero lo tolero por un premio.",
     busqueda: "cortaúñas gatos",
     enlace: "",
+    estrellas: 0,
   },
   {
     nombre: "Transportín resistente",
@@ -127,5 +142,6 @@ const PRODUCTOS = [
     nata: "Si lo ves, es que toca veterinario. Yo me escondo.",
     busqueda: "transportin gato apertura superior",
     enlace: "",
+    estrellas: 0,
   },
 ];
