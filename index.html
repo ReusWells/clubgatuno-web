@@ -3,12 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ClubGatuno · Los favoritos de Nata para tu gato</title>
-  <meta name="description" content="Consejos, curiosidades y los productos favoritos de Nata para que tu gato sea el más feliz de la casa.">
+  <title>ClubGatuno · El club gratis para quien quiere a su gato</title>
+  <meta name="description" content="Únete gratis al club de Nata: carné con el nombre de tu gato, una carta cada semana y una felicitación por su cumpleaños. Además, consejos y los favoritos de Nata.">
   <link rel="icon" href="img/favicon.png">
-  <meta property="og:title" content="ClubGatuno · Los favoritos de Nata">
-  <meta property="og:description" content="Consejos, curiosidades y los mejores productos para tu gato.">
-  <meta property="og:image" content="https://clubgatuno.es/img/logo.png">
+  <meta property="og:title" content="ClubGatuno · Únete gratis al club de Nata">
+  <meta property="og:description" content="Carné con el nombre de tu gato, una carta cada semana y consejos para que sea el más feliz de la casa.">
+  <meta property="og:image" content="https://clubgatuno.es/img/compartir.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="ClubGatuno">
+  <meta name="twitter:card" content="summary_large_image">
   <meta property="og:url" content="https://clubgatuno.es/">
   <meta property="og:type" content="website">
   <link rel="canonical" href="https://clubgatuno.es/">
@@ -23,12 +28,14 @@
         <img src="img/logo.png" alt="Logo de ClubGatuno">
         <span>Club<b>Gatuno</b></span>
       </a>
+      <a class="cabecera-club" href="club.html">Únete al club</a>
       <nav>
         <ul class="menu">
-          <li><a href="#favoritos">Favoritos de Nata</a></li>
+          <li><a href="#favoritos">Favoritos</a></li>
+          <li><a href="#regalos">Regalos</a></li>
           <li><a href="#consejos">Consejos</a></li>
-          <li><a href="#redes">Síguenos</a></li>
-          <li><a href="club.html">Únete al club</a></li>
+          <li><a href="#redes">Redes</a></li>
+          <li><a class="menu-club" href="club.html">Únete al club</a></li>
         </ul>
       </nav>
     </div>
@@ -38,14 +45,27 @@
     <section class="portada">
       <div class="contenedor">
         <div>
-          <h1>Todo lo que tu gato necesita, <em>elegido por Nata</em></h1>
-          <p>Soy Nata, la gata del ClubGatuno. Aquí tienes mis cosas favoritas y algunos consejos para que tu gato sea el más feliz de la casa.</p>
-          <a class="boton" href="#favoritos">Ver los favoritos de Nata</a>
+          <h1>Únete gratis al <em>club de Nata</em></h1>
+          <p>Soy Nata, la gata del ClubGatuno. Hazte miembro y te mando tu carné con el nombre de tu gato, una carta cada semana y una felicitación el día de su cumpleaños.</p>
+          <div class="portada-botones">
+            <a class="boton" href="club.html">Quiero mi carné del club 🪪</a>
+            <a class="enlace-suave" href="#favoritos">o mira mis cosas favoritas ↓</a>
+          </div>
         </div>
         <div class="portada-nata">
-          <img src="img/nata-sentada.png" alt="Nata, la gata de ClubGatuno, sentada y sonriendo">
+          <img src="img/nata-saludando.png" alt="Nata, la gata de ClubGatuno, saludando">
           <div class="bocadillo">¡Miau! 👋</div>
         </div>
+      </div>
+    </section>
+
+    <section id="regalos" class="regalos" hidden>
+      <div class="contenedor">
+        <div class="titulo-seccion">
+          <h2>Regalos de Navidad 🎄</h2>
+          <p>Ideas para tu gato y para quien lo quiere tanto como tú.</p>
+        </div>
+        <div class="rejilla" id="productos-regalos"></div>
       </div>
     </section>
 
@@ -53,7 +73,7 @@
       <div class="contenedor">
         <div class="titulo-seccion">
           <h2>Los favoritos de Nata</h2>
-          <p>Productos útiles, probados por miles de gatos y fáciles de comprar en Amazon.</p>
+          <p>Cosas útiles para el día a día de tu gato, elegidas entre las mejor valoradas de Amazon.</p>
         </div>
         <div class="filtros" id="filtros"></div>
         <div class="rejilla" id="productos"></div>
@@ -95,10 +115,8 @@
       <div class="contenedor">
         <img class="redes-nata" src="img/nata-caminando.png" alt="Nata caminando">
         <div class="titulo-seccion">
-          <h2>Únete al ClubGatuno</h2>
-          <p>Hazte miembro gratis: recibe tu carné del club y la Carta de Nata cada semana.</p>
-          <p style="margin-top:20px"><a class="boton" href="club.html">Quiero mi carné del club 🪪</a></p>
-          <p style="margin-top:28px">Y síguenos en redes para ver las aventuras de Nata todos los días:</p>
+          <h2>Síguenos en redes</h2>
+          <p>Un vídeo nuevo cada día: curiosidades, consejos y las aventuras de Nata.</p>
         </div>
         <div class="botones-redes">
           <a class="boton secundario" href="https://www.instagram.com/clubgatuno.es/" target="_blank" rel="noopener">Instagram</a>
@@ -106,6 +124,7 @@
           <a class="boton secundario" href="https://www.youtube.com/@Club_Gatuno" target="_blank" rel="noopener">YouTube</a>
           <a class="boton secundario" href="https://www.facebook.com/profile.php?id=61595027027108" target="_blank" rel="noopener">Facebook</a>
         </div>
+        <p class="recordatorio-club">¿Aún no tienes tu carné? <a href="club.html">Únete gratis al club</a></p>
       </div>
     </section>
   </main>
@@ -125,26 +144,40 @@
     const filtros = document.getElementById("filtros");
 
     function enlaceAmazon(p) {
-      if (p.enlace) return p.enlace;
+      if (p.asin) return "https://www.amazon.es/dp/" + p.asin + "?tag=" + AMAZON_TAG;
       // Filtro de Amazon "4 estrellas o más"
       return "https://www.amazon.es/s?k=" + encodeURIComponent(p.busqueda) + "&rh=p_72%3A831280031&tag=" + AMAZON_TAG;
     }
 
     // Solo productos de 4 estrellas o más: las búsquedas ya llevan el filtro;
-    // un producto concreto (con "enlace") necesita "estrellas" >= 4.
-    const VISIBLES = PRODUCTOS.filter(p => !p.enlace || (p.estrellas || 0) >= ESTRELLAS_MINIMAS);
+    // un producto concreto (con "asin") necesita "estrellas" >= 4.
+    const BUENOS = PRODUCTOS.filter(p => !p.asin || (p.estrellas || 0) >= ESTRELLAS_MINIMAS);
+    const VISIBLES = BUENOS.filter(p => p.categoria !== "regalos");
+    const REGALOS = BUENOS.filter(p => p.categoria === "regalos");
 
-    function pintar(categoria) {
-      const lista = categoria === "todos" ? VISIBLES : VISIBLES.filter(p => p.categoria === categoria);
-      contenedor.innerHTML = lista.map(p => `
+    function tarjeta(p) {
+      return `
         <article class="tarjeta">
           <div class="tarjeta-icono" aria-hidden="true">${p.icono}</div>
-          <div class="tarjeta-categoria">${CATEGORIAS[p.categoria]}</div>
+          <div class="tarjeta-categoria">${CATEGORIAS[p.categoria] || "Regalo"}</div>
           <h3>${p.nombre}</h3>
+          ${p.modelo ? `<div class="tarjeta-modelo">${p.modelo}</div>` : ""}
           <p>${p.texto}</p>
           <div class="dice-nata">🐾 Nata dice: «${p.nata}»</div>
           <a class="boton" href="${enlaceAmazon(p)}" target="_blank" rel="sponsored noopener">Ver en Amazon</a>
-        </article>`).join("");
+        </article>`;
+    }
+
+    function pintar(categoria) {
+      const lista = categoria === "todos" ? VISIBLES : VISIBLES.filter(p => p.categoria === categoria);
+      contenedor.innerHTML = lista.map(tarjeta).join("");
+    }
+
+    if (MOSTRAR_REGALOS && REGALOS.length) {
+      document.getElementById("productos-regalos").innerHTML = REGALOS.map(tarjeta).join("");
+      document.getElementById("regalos").hidden = false;
+    } else {
+      document.querySelector('.menu a[href="#regalos"]').parentElement.remove();
     }
 
     const opciones = { todos: "Todos", ...CATEGORIAS };

@@ -45,6 +45,13 @@ a { color: inherit; }
 .menu { display: flex; gap: 20px; list-style: none; }
 .menu a { text-decoration: none; font-weight: 700; }
 .menu a:hover { color: var(--terracota); }
+.menu a.menu-club {
+  background: var(--terracota); color: #fff; padding: 6px 14px;
+  border: 2px solid var(--marron); border-radius: 999px;
+}
+.menu a.menu-club:hover { background: var(--terracota-oscuro); color: #fff; }
+section[id] { scroll-margin-top: 80px; }
+.cabecera-club { display: none; }
 
 /* ---------- Portada ---------- */
 .portada { background: var(--crema); padding: 56px 0 64px; overflow: hidden; }
@@ -54,6 +61,9 @@ a { color: inherit; }
 .portada h1 { font-size: clamp(2.1rem, 5vw, 3.3rem); line-height: 1.1; font-weight: 900; margin-bottom: 16px; }
 .portada h1 em { font-style: normal; color: var(--terracota); }
 .portada p { font-size: 1.15rem; color: var(--marron-suave); margin-bottom: 28px; max-width: 34ch; }
+.portada-botones { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.enlace-suave { font-weight: 700; color: var(--marron-suave); }
+.enlace-suave:hover { color: var(--terracota); }
 .portada-nata { position: relative; justify-self: center; }
 .portada-nata img { width: min(300px, 70vw); }
 .bocadillo {
@@ -100,12 +110,16 @@ section { padding: 64px 0; }
 }
 .tarjeta-categoria { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--salvia); }
 .tarjeta h3 { font-size: 1.2rem; line-height: 1.3; }
+.tarjeta-modelo { font-size: 0.88rem; font-weight: 700; color: var(--marron-suave); margin-top: -6px; }
 .tarjeta p { font-size: 0.98rem; color: var(--marron-suave); }
 .tarjeta .dice-nata {
   background: var(--salvia-claro); border-radius: 12px; padding: 10px 12px;
   font-size: 0.92rem; font-weight: 700; color: var(--marron);
 }
 .tarjeta .boton { margin-top: auto; text-align: center; padding: 11px 20px; font-size: 0.98rem; }
+
+/* ---------- Regalos (temporada) ---------- */
+.regalos { background: var(--crema); border-bottom: 3px solid var(--marron); }
 
 /* ---------- Consejos ---------- */
 .consejos { background: var(--salvia-claro); }
@@ -121,6 +135,8 @@ section { padding: 64px 0; }
 .botones-redes { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 24px; }
 .boton.secundario { background: #fff; color: var(--marron); }
 .boton.secundario:hover { background: var(--crema); }
+.recordatorio-club { margin-top: 28px; font-weight: 700; }
+.recordatorio-club a { color: var(--terracota-oscuro); }
 
 /* ---------- Pie ---------- */
 .pie { background: var(--marron); color: var(--crema); padding: 36px 0; font-size: 0.9rem; }
@@ -139,7 +155,20 @@ section { padding: 64px 0; }
 /* ---------- Móvil ---------- */
 @media (max-width: 760px) {
   body { font-size: 17px; }
-  .menu { display: none; }
+  .cabecera .contenedor { flex-wrap: wrap; gap: 6px; padding-top: 8px; padding-bottom: 8px; }
+  .cabecera nav { width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .cabecera nav::-webkit-scrollbar { display: none; }
+  .menu { gap: 16px; font-size: 0.95rem; white-space: nowrap; padding: 2px 0 4px; }
+  .menu li:last-child { display: none; }
+  .cabecera-club {
+    display: block; margin-left: auto; text-decoration: none; font-weight: 800; font-size: 0.92rem;
+    background: var(--terracota); color: #fff; padding: 6px 14px;
+    border: 2px solid var(--marron); border-radius: 999px;
+  }
+  .marca img { width: 40px; height: 40px; }
+  .marca span { font-size: 1.25rem; }
+  section[id] { scroll-margin-top: 110px; }
+  .portada-botones { justify-content: center; }
   .portada { padding: 36px 0 48px; }
   .portada .contenedor { grid-template-columns: 1fr; text-align: center; }
   .portada p { margin-left: auto; margin-right: auto; }
