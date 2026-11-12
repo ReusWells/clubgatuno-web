@@ -65,6 +65,9 @@
     // Pasa la red de origen (?o=instagram) a los enlaces del club para saber de dónde vienen los miembros.
     const o = new URLSearchParams(location.search).get("o");
     if (o) document.querySelectorAll('a[href^="club.html"]').forEach(a => a.href = "club.html?o=" + encodeURIComponent(o));
+    // Quien llega desde una red (enlace de la biografía con ?o=) va directo a la página de alta.
+    // Con ?todo en la dirección se ve esta lista de enlaces.
+    if (o && !new URLSearchParams(location.search).has("todo")) location.replace("unete.html?o=" + encodeURIComponent(o));
   </script>
 </body>
 </html>

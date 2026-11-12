@@ -206,6 +206,7 @@
           "<p>🧪 <b>Modo de prueba:</b> el servidor del club aún no está conectado. No se ha guardado nada.</p>";
       }
 
+      if (API) try { localStorage.setItem("cg_miembro", "1"); } catch (e) {}
       await dibujarCarne(nombre, gato, selDia.value, selMes.value);
       form.style.display = "none";
       document.getElementById("resultado").style.display = "block";

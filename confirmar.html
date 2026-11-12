@@ -51,6 +51,7 @@
         const r = await fetch(API + "/api/confirmar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ t }) });
         const d = await r.json();
         if (!d.ok) return fallo(d.error || "No hemos podido confirmar tu correo.");
+        try { localStorage.setItem("cg_miembro", "1"); } catch (e) {}   // así unete.html le lleva directo a la web
         titulo.textContent = "¡Te damos la bienvenida al club! 🎉";
         texto.textContent = "Tu correo está confirmado. Te acabamos de enviar el primer correo de Nata, y cada semana recibirás la Carta de Nata.";
         history.replaceState(null, "", "confirmar.html");   // quita el código de la barra de direcciones

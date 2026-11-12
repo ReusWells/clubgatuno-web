@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¿Te unes al ClubGatuno? Es gratis</title>
+  <meta name="description" content="Únete gratis al ClubGatuno: tu carné con el nombre de tu gato, la Carta de Nata cada semana y una felicitación por su cumpleaños.">
+  <link rel="icon" href="img/favicon.png">
+  <meta property="og:title" content="¿Te unes al ClubGatuno? Es gratis 🐾">
+  <meta property="og:description" content="Tu carné del club, la Carta de Nata cada semana y una felicitación el día del cumpleaños de tu gato.">
+  <meta property="og:image" content="https://clubgatuno.es/img/compartir.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://clubgatuno.es/unete.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="ClubGatuno">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://clubgatuno.es/club.html">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: var(--crema); }
+    .unete { max-width: 960px; margin: 0 auto; padding: 28px 16px 40px; }
+    .arriba { text-align: center; margin-bottom: 22px; }
+    .arriba .avatar { width: 84px; height: 84px; border-radius: 50%; border: 3px solid var(--marron); margin: 0 auto 10px; }
+    .arriba h1 { font-size: clamp(1.7rem, 6vw, 2.5rem); font-weight: 900; line-height: 1.15; }
+    .arriba h1 b { color: var(--terracota); }
+    .gratis { display: inline-block; margin-top: 10px; background: var(--salvia); color: #fff; font-weight: 900;
+      border-radius: 999px; padding: 6px 16px; font-size: 1rem; }
+    .reparto { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: start; }
+    .formulario { background: #fff; border: 3px solid var(--marron); border-radius: var(--radio);
+      box-shadow: var(--sombra); padding: 24px; display: grid; gap: 14px; }
+    .campo { display: grid; gap: 5px; }
+    .campo label { font-weight: 800; font-size: 0.95rem; }
+    .campo .ayuda { font-weight: 400; color: var(--marron-suave); }
+    .campo input, .campo select { font: inherit; padding: 12px 14px; border: 2px solid var(--marron); border-radius: 12px;
+      background: var(--crema-claro); color: var(--marron); width: 100%; }
+    .campo input:focus, .campo select:focus { outline: 3px solid var(--salvia); }
+    .fila { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+    .consentimiento { display: flex; gap: 10px; align-items: flex-start; font-size: 0.85rem; color: var(--marron-suave); }
+    .consentimiento input { width: 22px; height: 22px; margin-top: 2px; flex: none; accent-color: var(--terracota); }
+    .formulario .boton { font: inherit; font-weight: 900; font-size: 1.15rem; cursor: pointer; width: 100%; padding: 16px; }
+    .letra-pequena { font-size: 0.75rem; color: var(--marron-suave); }
+    .error { color: #B3261E; font-weight: 700; font-size: 0.92rem; display: none; }
+
+    .ventajas { background: var(--salvia-claro); border-radius: var(--radio); padding: 22px; }
+    .ventajas h2 { font-size: 1.25rem; margin-bottom: 12px; }
+    .ventajas ul { list-style: none; display: grid; gap: 14px; }
+    .ventajas li { display: flex; gap: 12px; align-items: flex-start; }
+    .ventajas .ico { font-size: 1.6rem; line-height: 1.1; }
+    .ventajas .nata { width: 150px; margin: 16px auto 0; display: block; }
+
+    .resultado { display: none; text-align: center; }
+    .resultado h2 { font-size: 1.6rem; margin-bottom: 8px; }
+    .resultado canvas { width: 100%; max-width: 540px; height: auto; margin: 16px auto; display: block;
+      border-radius: 18px; box-shadow: 0 8px 24px rgba(61,44,42,.18); }
+    .resultado .pasos { text-align: left; margin: 0 auto 16px; }
+    .resultado .ir-web { display: block; margin-top: 12px; }
+    .no-gracias { display: block; text-align: center; font-weight: 700; color: var(--marron-suave); padding: 4px; }
+
+    .pie-mini { text-align: center; margin-top: 28px; font-size: 0.8rem; color: var(--marron-suave); }
+
+    @media (max-width: 760px) {
+      .reparto { grid-template-columns: 1fr; gap: 18px; }
+      .ventajas { order: -1; padding: 16px 18px; }       /* en el móvil, las ventajas van antes del formulario */
+      .ventajas h2, .ventajas .nata { display: none; }
+      .ventajas ul { gap: 8px; }
+      .ventajas li { font-size: 0.95rem; }
+      .ventajas .ico { font-size: 1.3rem; }
+      .formulario { padding: 18px; }
+    }
+  </style>
+  <script>
+    // Si en este navegador ya se unió al club (o dijo "ahora no" hace menos de 30 días), va directo a la web.
+    try {
+      const noHasta = Number(localStorage.getItem("cg_no_hasta") || 0);
+      if (localStorage.getItem("cg_miembro") || noHasta > Date.now()) location.replace("index.html");
+    } catch (e) {}
+  </script>
+  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "28d118872ca0471791528103355aa929"}'></script><!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+  <main class="unete">
+    <div class="arriba">
+      <img class="avatar" src="img/logo.png" alt="Logo de ClubGatuno">
+      <h1>¿Te quieres unir al <b>ClubGatuno</b>?</h1>
+      <span class="gratis">Es gratis 🐾</span>
+    </div>
+
+    <div class="reparto">
+      <div>
+        <form class="formulario" id="form-club" novalidate>
+          <div class="campo">
+            <label for="nombre">Tu nombre</label>
+            <input id="nombre" name="nombre" type="text" autocomplete="given-name" maxlength="30" required>
+          </div>
+          <div class="campo">
+            <label for="email">Tu correo electrónico</label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="campo">
+            <label for="gato">Nombre de tu gato</label>
+            <input id="gato" name="gato" type="text" maxlength="24" placeholder="Por ejemplo: Misi" required>
+          </div>
+          <div class="campo">
+            <label>Su cumpleaños <span class="ayuda">(opcional, para felicitarle)</span></label>
+            <div class="fila">
+              <select id="dia" name="dia" aria-label="Día"><option value="">Día</option></select>
+              <select id="mes" name="mes" aria-label="Mes"><option value="">Mes</option></select>
+            </div>
+          </div>
+          <label class="consentimiento">
+            <input id="acepto" type="checkbox">
+            <span>Quiero recibir la Carta de Nata por correo, que incluye consejos, novedades, <b>ofertas y promociones</b> de ClubGatuno. He leído la <a href="privacidad.html" target="_blank">política de privacidad</a>. Puedo darme de baja cuando quiera.</span>
+          </label>
+          <input type="text" name="web" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+          <p class="error" id="error"></p>
+          <button class="boton" type="submit">Sí, quiero unirme gratis</button>
+          <a class="no-gracias" href="index.html">Ahora no, gracias. Llévame a la web →</a>
+          <p class="letra-pequena">Responsable: ClubGatuno. Finalidad: enviarte la newsletter. Tus datos se guardan en servidores de Cloudflare en la Unión Europea y los correos se envían con Resend. Puedes acceder a tus datos, corregirlos o pedir que los borremos escribiendo a dailycatsstore@gmail.com.</p>
+        </form>
+
+        <div class="resultado" id="resultado">
+          <h2>¡Te damos la bienvenida al club! 🎉</h2>
+          <p>Aquí tienes tu carné. Guárdalo o compártelo con quien quieras.</p>
+          <canvas id="carne" width="1080" height="680"></canvas>
+          <div class="pasos" id="pasos">
+            <p>📩 <b>Último paso:</b> te hemos enviado un correo. Pulsa el botón de confirmación para empezar a recibir la Carta de Nata. Si no lo ves, mira en spam o en "Promociones".</p>
+          </div>
+          <a class="boton" id="descargar" download="carne-clubgatuno.png">Descargar mi carné</a>
+          <a class="boton secundario ir-web" href="index.html">Ir a la web de ClubGatuno →</a>
+        </div>
+      </div>
+
+      <aside class="ventajas">
+        <h2>Qué recibes en el club</h2>
+        <ul>
+          <li><span class="ico">🪪</span><span><b>Tu carné del club</b> con el nombre de tu gato, al momento.</span></li>
+          <li><span class="ico">💌</span><span><b>La Carta de Nata</b> cada semana: curiosidades y consejos.</span></li>
+          <li><span class="ico">🎂</span><span><b>Felicitamos a tu gato</b> el día de su cumpleaños.</span></li>
+          <li><span class="ico">🎁</span><span><b>Sorpresas y descuentos</b> solo para miembros.</span></li>
+        </ul>
+        <img class="nata" src="img/nata-saludando.png" alt="Nata saludando">
+      </aside>
+    </div>
+
+    <p class="pie-mini"><a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a></p>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="carne.js"></script>
+  <script>
+    // Red de la que viene la visita (?o=instagram). Sin ?o= se cuenta como "unete".
+    const ORIGEN = (new URLSearchParams(location.search).get("o") || "unete").toLowerCase().replace(/[^a-z_]/g, "").slice(0, 20) || "unete";
+
+    const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    const selDia = document.getElementById("dia");
+    const selMes = document.getElementById("mes");
+    for (let d = 1; d <= 31; d++) selDia.add(new Option(d, String(d).padStart(2, "0")));
+    MESES.forEach((m, i) => selMes.add(new Option(m[0].toUpperCase() + m.slice(1), String(i + 1).padStart(2, "0"))));
+
+    document.querySelector(".no-gracias").addEventListener("click", () => {
+      try { localStorage.setItem("cg_no_hasta", String(Date.now() + 30 * 24 * 3600 * 1000)); } catch (e) {}
+    });
+
+    const form = document.getElementById("form-club");
+    const error = document.getElementById("error");
+    function mostrarError(texto) { error.textContent = texto; error.style.display = "block"; }
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      error.style.display = "none";
+      const nombre = form.nombre.value.trim();
+      const email = form.email.value.trim();
+      const gato = form.gato.value.trim();
+      if (!nombre) return mostrarError("Escribe tu nombre.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return mostrarError("Revisa tu correo electrónico.");
+      if (!gato) return mostrarError("Escribe el nombre de tu gato.");
+      if (!document.getElementById("acepto").checked) return mostrarError("Marca la casilla para unirte al club.");
+
+      const boton = form.querySelector("button");
+      boton.disabled = true; boton.textContent = "Enviando…";
+      try {
+        const r = await fetch(API + "/api/unirse", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nombre, email, gato, dia: selDia.value, mes: selMes.value, acepto: true,
+            origen: ORIGEN, web: form.web.value })
+        });
+        const res = await r.json();
+        if (!res.ok) throw new Error(res.error || "error");
+      } catch (err) {
+        boton.disabled = false; boton.textContent = "Sí, quiero unirme gratis";
+        return mostrarError(err.message && err.message !== "error" && !/fetch/i.test(err.message)
+          ? err.message : "No hemos podido conectar. Inténtalo de nuevo en un momento.");
+      }
+
+      try { localStorage.setItem("cg_miembro", "1"); } catch (e) {}
+      await dibujarCarne(nombre, gato, selDia.value, selMes.value);
+      form.style.display = "none";
+      document.querySelector(".ventajas").style.display = "none";
+      document.getElementById("resultado").style.display = "block";
+      document.getElementById("resultado").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  </script>
+</body>
+</html>
