@@ -177,3 +177,56 @@ section { padding: 64px 0; }
   .bocadillo { right: -30px; }
   section { padding: 48px 0; }
 }
+
+/* ---------- Guías (artículos) ---------- */
+.guia { max-width: 760px; padding: 40px 20px 56px; }
+.guia-miga { font-size: 0.9rem; font-weight: 700; color: var(--marron-suave); margin-bottom: 14px; }
+.guia-miga a { color: var(--terracota-oscuro); }
+.guia h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.15; font-weight: 900; margin-bottom: 12px; }
+.guia-entradilla { font-size: 1.15rem; color: var(--marron-suave); margin-bottom: 10px; }
+.guia-fecha { font-size: 0.88rem; color: var(--marron-suave); margin-bottom: 26px; }
+.guia h2 { font-size: 1.45rem; line-height: 1.25; margin: 34px 0 10px; }
+.guia h3 { font-size: 1.15rem; margin: 22px 0 6px; }
+.guia p, .guia li { margin-bottom: 12px; }
+.guia ul, .guia ol { padding-left: 24px; }
+.guia a { color: var(--terracota-oscuro); }
+.guia table { width: 100%; border-collapse: collapse; margin: 10px 0 20px; font-size: 0.95rem; background: #fff; }
+.guia th, .guia td { border: 2px solid var(--marron); padding: 8px 10px; text-align: left; vertical-align: top; }
+.guia th { background: var(--crema); }
+.tabla-scroll { overflow-x: auto; }
+.resumen-rapido {
+  background: #fff; border: 3px solid var(--marron); border-radius: var(--radio);
+  box-shadow: var(--sombra); padding: 18px 22px; margin: 6px 0 24px;
+}
+.resumen-rapido h2 { font-size: 1.1rem; margin: 0 0 8px; }
+.resumen-rapido ul { margin: 0; }
+.resumen-rapido li { margin-bottom: 6px; }
+.nota-nata {
+  display: flex; gap: 14px; align-items: center;
+  background: var(--salvia-claro); border-radius: var(--radio); padding: 14px 18px; margin: 24px 0;
+}
+.nota-nata img { width: 84px; flex-shrink: 0; }
+.nota-nata p { margin: 0; font-weight: 700; }
+.aviso-urgente {
+  background: #FDE3DA; border-left: 6px solid var(--terracota-oscuro);
+  border-radius: 12px; padding: 14px 18px; margin: 20px 0;
+}
+.aviso-urgente p:last-child, .aviso-urgente ul:last-child { margin-bottom: 0; }
+.guia-producto {
+  background: #fff; border: 2px dashed var(--marron); border-radius: 14px; padding: 14px 18px; margin: 18px 0;
+}
+.guia-producto p { margin-bottom: 8px; }
+.guia-club {
+  text-align: center; background: var(--crema); border: 3px solid var(--marron);
+  border-radius: var(--radio); padding: 26px 20px; margin: 40px 0 20px;
+}
+.guia-club img { width: 110px; margin: 0 auto 8px; }
+.guia-club h2 { margin-top: 0; }
+.guia-club .boton { color: #fff; margin-top: 8px; }
+.guia-fuentes { font-size: 0.88rem; color: var(--marron-suave); border-top: 2px solid var(--crema); padding-top: 14px; margin-top: 30px; }
+.guia-fuentes li { margin-bottom: 4px; }
+.guia-relacionadas { margin-top: 26px; }
+.lista-guias { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
+.lista-guias a { text-decoration: none; }
+.lista-guias .tarjeta:hover { transform: translateY(-2px); }
+.lista-guias .tarjeta img { width: 90px; }
